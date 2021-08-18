@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    private Room _currentRoom;
     [SerializeField] private Rigidbody2D _rigidbody2D;
     [SerializeField] private float _speed;
     private List<IArtefact> _artefacts = new List<IArtefact>();
     [SerializeField] private Transform _weaponPosition;
+
+    public Room CurrentRoom { get => _currentRoom; set => _currentRoom = value; }
+    private Camera _camera;
+    private void Start() {
+             _camera = Camera.main;
+    }
 
     private void Update() 
     {
@@ -20,7 +27,9 @@ public class Character : MonoBehaviour
             if(_artefacts.Count < 4)
             {
              _artefacts.Add(artefact);
-             other.gameObject.transform.SetParent(_weaponPosition, false);
+             Destroy(other.gameObject);
+            GameObject item =  Instantiate(other.gameObject, transform.position, Quaternion.identity);
+            item.transform.SetParent(_weaponPosition, false);
 
             }
         }
@@ -30,4 +39,9 @@ public class Character : MonoBehaviour
           ienemy.TakeDamge(10);
       }
     }
+    public void SetRoom(Room room)
+    {
+         _camera.transform.position = new Vector3( room.transform.position.x, room.transform.position.y, -10);
+    }
 }
+

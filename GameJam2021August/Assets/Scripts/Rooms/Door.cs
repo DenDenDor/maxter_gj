@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    [SerializeField] private Transform _rayPoint;
+    [SerializeField] private Transform _startPoint;
  [SerializeField] private RoomPoint _roomPoint;
  [SerializeField] private BoxCollider2D _boxCollider2D;
-  [SerializeField] private bool _isOpen;
+   private bool _isOpen = true;
   [SerializeField] private SpriteRenderer _spriteRenderer;
    private Color[] _colors = {Color.black, Color.blue};
 
     public bool IsOpen { get => _isOpen; set => _isOpen = value; }
-    private void Start() {
+    private void Start() 
+    {
         SetChanges();
     }
+
 
     public void ChangeCondition()
  {
@@ -25,7 +29,7 @@ public class Door : MonoBehaviour
  }
  private void SetChanges()
  {
-     _boxCollider2D.enabled = !IsOpen;
+     _boxCollider2D.isTrigger = IsOpen;
      _roomPoint.enabled = IsOpen;
  }
 

@@ -6,10 +6,8 @@ public class SpawnerPoint : MonoBehaviour
 {
     [SerializeField] private Room[] _rooms;
     private bool _isSpawned;
-     private AddingRoom _addingRoom;
     private void Start()     
     {
-     _addingRoom =FindObjectOfType<AddingRoom>();  
         StartCoroutine(CreateRoom());
     }
     private IEnumerator CreateRoom()
@@ -18,7 +16,6 @@ public class SpawnerPoint : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
        
         Instantiate(_rooms[random], transform.position, Quaternion.identity);
-         _addingRoom.AddRoom(_rooms[random]);
          _isSpawned = true;
     }
     private void OnTriggerEnter2D(Collider2D other) {

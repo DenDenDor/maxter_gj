@@ -5,21 +5,30 @@ using UnityEngine.Events;
 
 public class Room : MonoBehaviour
 {
- [SerializeField] private List< Door> _doors;
+    private bool _isOpened;
+    private AddingRoom _addingRoom;
+    [SerializeField] private bool _isEmptyRoom;
  [SerializeField] private bool _isMainRoom;
-    private List< Room> _rooms = new List<Room>();
-     private AddingRoom _addingRoom;
      [SerializeField] private GameObject[]  _enemies;
      [SerializeField] private Transform[] _spawnPosition;
      private List<GameObject> _currentEnemies= new List<GameObject>();
      [SerializeField] private UnityEvent _event;
-
+     private Transform[] _points;
+     [SerializeField] private Transform _point;
     public bool IsMainRoom { get => _isMainRoom; set => _isMainRoom = value; }
 
     private void Start()
    {
-      _addingRoom =FindObjectOfType<AddingRoom>();  
-      _addingRoom.AddRoom(this);
+       _addingRoom = FindObjectOfType<AddingRoom>();
+        _addingRoom.AddRoom(this);
+    if (_isEmptyRoom)
+    {
+        ChangeDoors();
+    }
+      else
+      {
+        
+          
       foreach (Transform currentPosition in _spawnPosition)
       {
           int random = Random.Range(0, _enemies.Length);
@@ -27,18 +36,31 @@ public class Room : MonoBehaviour
           _currentEnemies.Add(enemy);
 
       }
+      }
       
   }
   private void OnTriggerEnter2D(Collider2D other) {
  
-      if (other.GetComponent<Character>() && !IsMainRoom)
+      if (other.TryGetComponent<Character>(out Character _character))
       {
-       StartCoroutine(Create());
+        _character.SetRoom(this);
+        if(!_isOpened)
+        {
+         Create();
+         ChangeDoors();
+        }
+        
       }
+    if (other.GetComponent<Room>())
+    {
+        Destroy(gameObject);
+    }
+
+
   }
-  private IEnumerator Create()
+  
+  private void Create()
   {
-      yield return new WaitForSeconds(1);
       foreach (GameObject enemy in _currentEnemies)
          {
            enemy.GetComponent<IEnemy>().SpawnEnemy(this);
@@ -56,9 +78,19 @@ public class Room : MonoBehaviour
   }
   public void ChangeDoors()
   {
-     foreach (Door door in _doors)
+      if(!_isEmptyRoom)
       {
-         door.ChangeCondition();
-     }
+          _points = _point.GetComponentsInChildren<Transform>();
+      Collider2D[] _colliders = Physics2D.OverlapAreaAll(  _points[1].position,_points[2].position);
+   foreach (var collider in _colliders)
+   {
+        
+        if (collider.TryGetComponent<Door>(out Door _door))
+     {
+       _door.ChangeCondition();
+        }
+     _isOpened = true;
+    }
+   }
   }
 }

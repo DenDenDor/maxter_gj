@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EvilFruit : MonoBehaviour, IEnemy
+[CreateAssetMenu(fileName = "EvilFruit", menuName = "GameJam2021August/Enemy", order = 0)]
+public class EvilFruit : Enemy, IEnemy
 
 {
     private Room _currentRoom;

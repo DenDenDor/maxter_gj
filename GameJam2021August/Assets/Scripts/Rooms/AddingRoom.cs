@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AddingRoom : MonoBehaviour
 {
-    [SerializeField] private List< Room> _rooms = new List<Room>();
+    [SerializeField] private List< Room> _rooms;
     [SerializeField] private GameObject _bossRoom;
     private void Start() {
        StartCoroutine( Wait());
@@ -12,12 +12,11 @@ public class AddingRoom : MonoBehaviour
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(5);
-        Debug.Log("Cool");
-      Instantiate(_bossRoom, _rooms[_rooms.Count - 1].transform.position, Quaternion.identity);
+        
+      Instantiate(_bossRoom, _rooms[_rooms.Count -1].transform.position, Quaternion.identity);
     }
     public void AddRoom(Room room)
     {
-        Debug.Log(room);
         _rooms.Add(room);
     }
 }
