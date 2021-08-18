@@ -53,7 +53,7 @@ public class Room : MonoBehaviour
       }
     if (other.GetComponent<Room>())
     {
-        Destroy(gameObject);
+      
     }
 
 

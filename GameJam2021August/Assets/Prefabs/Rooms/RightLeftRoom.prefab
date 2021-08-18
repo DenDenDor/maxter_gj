@@ -56,6 +56,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -129,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e3b5f2dfe236b64485e6cfe3edab63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEmptyRoom: 0
+  _isEmptyRoom: 1
   _isMainRoom: 0
   _enemies:
   - {fileID: 330741317762443128, guid: a2e35ea074c24084f8cf9e9204b2579a, type: 3}
@@ -140,6 +141,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -6074964406510679566}
+        m_TargetAssemblyTypeName: 
         m_MethodName: ChangeDoors
         m_Mode: 1
         m_Arguments:
